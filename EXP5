@@ -1,0 +1,33 @@
+# Import required libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+from statsmodels.tsa.seasonal import seasonal_decompose
+from statsmodels.graphics.tsaplots import plot_acf
+
+# Set seed for reproducibility
+np.random.seed(0)
+
+# Create date range and synthetic sales data
+start_date = '2020-01-01'
+end_date = '2023-12-31'
+date_range = pd.date_range(start=start_date, end=end_date, freq='M')
+sales_data = np.random.randint(10000, 50000, size=len(date_range))
+
+# Create DataFrame
+df = pd.DataFrame({'Date': date_range, 'Sales': sales_data})
+df.set_index('Date', inplace=True)
+
+# Display basic statistics
+print(df.describe())
+
+# Plot original sales data
+plt.figure(figsize=(12, 6))
+plt.title('Monthly Sales Over Time')
+plt.xlabel('Date')
+plt.ylabel('Sales')
+plt.plot(df.index, df['Sales'], label='Sales')
+plt.legend()
+plt.grid(True)
+plt.show()
