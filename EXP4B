@@ -1,0 +1,26 @@
+import pandas as pd
+
+# Step 2: Create the dataset
+data = {
+    'Employee': ['E01', 'E02', 'E03', 'E04', 'E05', 'E06', 'E07'],
+    'Department': ['HR', 'Sales', 'IT', 'HR', 'IT', 'Sales', 'Sales'],
+    'Hours_Worked': [40, 35, 45, 38, 42, 30, 36]
+}
+
+# Step 3: Load the dataset into DataFrame
+df = pd.DataFrame(data)
+
+# Step 4: Group the data by Department
+grouped = df.groupby('Department')['Hours_Worked'].agg(['sum', 'mean'])
+
+# Step 5: Create summary table
+summary = grouped.rename(columns={'sum': 'Total_Hours', 'mean': 'Average_Hours'})
+print("Summary Table:")
+print(summary)
+
+# Step 6: Identify top department by average hours
+top_department = summary['Average_Hours'].idxmax()
+top_avg_hours = summary['Average_Hours'].max()
+
+# Step 7: Display results
+print(f"\nDepartment with highest average hours: {top_department} ({top_avg_hours} hours)")
