@@ -1,0 +1,29 @@
+import pandas as pd
+
+# Sample dataset
+data = {
+    'City': ['Chennai', 'Chennai', 'Delhi', 'Delhi', 'Mumbai', 'Mumbai'],
+    'Month': ['June', 'July', 'June', 'July', 'June', 'July'],
+    'Temperature': [35, 36, 40, 39, 34, 33]
+}
+
+# Step 1: Create DataFrame
+df = pd.DataFrame(data)
+
+# Step 2: Group data by city and month
+grouped = df.groupby(['City', 'Month'])['Temperature'].sum().reset_index()
+
+# Step 3: Create a pivot table (City as rows, Month as columns)
+pivot_table = grouped.pivot(index='City', columns='Month', values='Temperature').fillna(0)
+
+# Step 4: Add a column for total summer temperature (e.g., June + July)
+pivot_table['Total_Summer_Temp'] = pivot_table.sum(axis=1)
+
+# Step 5: Identify city with highest total summer temperature
+top_city = pivot_table['Total_Summer_Temp'].idxmax()
+top_temp = pivot_table['Total_Summer_Temp'].max()
+
+# Step 6: Display results
+print("Pivot Table:")
+print(pivot_table)
+print(f"\nCity with highest total temperature in summer: {top_city} ({top_temp}°C)")
