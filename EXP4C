@@ -1,0 +1,33 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Step 2: Load/Create dataset
+data = {
+    'Employee': ['E01', 'E02', 'E03', 'E04', 'E05', 'E06', 'E07'],
+    'Department': ['HR', 'Sales', 'IT', 'HR', 'IT', 'Sales', 'Sales'],
+    'Hours_Worked': [40, 35, 45, 38, 42, 30, 36]
+}
+
+df = pd.DataFrame(data)
+
+# Step 3: Group by Employee and sum hours
+grouped = df.groupby(['Employee', 'Department'])['Hours_Worked'].sum().reset_index()
+
+# Step 4: Optional pivoting for heatmap or reshaping
+pivot_df = grouped.pivot(index='Employee', columns='Department', values='Hours_Worked').fillna(0)
+
+# Step 5: Identify charts
+
+# Barplot of Hours by Employee
+plt.figure(figsize=(8, 5))
+sns.barplot(x='Employee', y='Hours_Worked', data=grouped, hue='Department')
+plt.title('Work Hours per Employee by Department')
+plt.ylabel('Hours Worked')
+plt.show()
+
+# Heatmap (optional)
+plt.figure(figsize=(6, 4))
+sns.heatmap(pivot_df, annot=True, cmap='Blues')
+plt.title('Heatmap of Employee Hours by Department')
+plt.show()
